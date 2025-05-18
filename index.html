@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment API</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <!-- Navbar -->
+  <nav class="bg-blue-600 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Payment API</h1>
+      <ul class="flex space-x-4">
+        <li><a href="#home" class="hover:underline">Home</a></li>
+        <li><a href="#docs" class="hover:underline">Documentation</a></li>
+        <li><a href="#try" class="hover:underline">Try It</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="bg-blue-500 text-white py-20">
+    <div class="container mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-4">Secure Payment API</h2>
+      <p class="text-lg mb-6">Integrate fast, secure payments into your application with our easy-to-use API.</p>
+      <a href="#docs" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Documentation Section -->
+  <section id="docs" class="py-16">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-8">API Documentation</h2>
+      <div class="bg-white p-6 rounded-lg shadow-lg">
+        <h3 class="text-xl font-semibold mb-4">Endpoint: Create Payment</h3>
+        <p><strong>POST</strong> /api/v1/payments</p>
+        <p class="mt-2">Initiates a payment transaction.</p>
+        <pre class="bg-gray-800 text-white p-4 rounded-lg mt-4">
+{
+  "amount": 100.00,
+  "currency": "USD",
+  "card": {
+    "number": "4242424242424242",
+    "exp_month": 12,
+    "exp_year": 2026,
+    "cvc": "123"
+  },
+  "description": "Test payment"
+}
+        </pre>
+        <h3 class="text-xl font-semibold mt-6 mb-4">Response</h3>
+        <pre class="bg-gray-800 text-white p-4 rounded-lg">
+{
+  "id": "pay_123456789",
+  "status": "succeeded",
+  "amount": 100.00,
+  "currency": "USD",
+  "created": "2025-05-11T12:00:00Z"
+}
+        </pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Try It Section -->
+  <section id="try" class="bg-gray-200 py-16">
+    <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-8">Try the API</h2>
+      <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h3 class="text-xl font-semibold mb-4">Test Payment</h3>
+        <div>
+          <label class="block text-sm font-medium mb-1">Amount</label>
+          <input id="amount" type="number" step="0.01" placeholder="100.00" class="w-full p-2 border rounded-lg mb-4">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Card Number</label>
+          <input id="cardNumber" type="text" placeholder="4242 4242 4242 4242" class="w-full p-2 border rounded-lg mb-4">
+        </div>
+        <div class="flex space-x-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Exp Month</label>
+            <input id="expMonth" type="number" placeholder="12" class="w-full p-2 border rounded-lg">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Exp Year</label>
+            <input id="expYear" type="number" placeholder="2026" class="w-full p-2 border rounded-lg">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">CVC</label>
+            <input id="cvc" type="text" placeholder="123" class="w-full p-2 border rounded-lg">
+          </div>
+        </div>
+        <button onclick="makePayment()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700">Submit Payment</button>
+        <p id="paymentResult" class="mt-4 text-center"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2025 Payment API. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    async function makePayment() {
+      const amount = document.getElementById('amount').value;
+      const cardNumber = document.getElementById('cardNumber').value;
+      const expMonth = document.getElementById('expMonth').value;
+      const expYear = document.getElementById('expYear').value;
+      const cvc = document.getElementById('cvc').value;
+      const resultElement = document.getElementById('paymentResult');
+
+      // Mock API call
+      try {
+        // In a real app, you'd make an actual fetch request to your API
+        const mockResponse = {
+          id: 'pay_' + Math.random().toString(36).substr(2, 9),
+          status: 'succeeded',
+          amount: parseFloat(amount),
+          currency: 'USD',
+          created: new Date().toISOString()
+        };
+
+        resultElement.textContent = `Payment successful! ID: ${mockResponse.id}`;
+        resultElement.classList.add('text-green-600');
+      } catch (error) {
+        resultElement.textContent = 'Payment failed. Please try again.';
+        resultElement.classList.add('text-red-600');
+      }
+    }
+  </script>
+</body>
+</html>
